@@ -12,7 +12,7 @@ public class Employee {
 
 	private boolean isForeigner;
 
-	private enum Grade {
+	public enum Grade {
 		GRADE_1(3000000),
 		GRADE_2(5000000),
 		GRADE_3(7000000);
@@ -28,7 +28,7 @@ public class Employee {
 		}
 	}
 
-	private enum JenisGender {
+	public enum JenisGender {
 		LAKI_LAKI,
 		PEREMPUAN
 	}
