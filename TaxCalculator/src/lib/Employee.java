@@ -7,22 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Employee {
+	private String idNumber;
 
 	private String employeeId;
 	private String firstName;
 	private String lastName;
-	private String idNumber;
 	private String address;
 
 	private LocalDate dateJoined;
-
-	public LocalDate getDateJoined() {
-		return dateJoined;
-	}
-
-	public void setDateJoined(LocalDate dateJoined) {
-		this.dateJoined = dateJoined;
-	}
 
 	private int monthWorkingInYear;
 
@@ -31,27 +23,16 @@ public class Employee {
 	private enum JenisGender {
 		LAKI_LAKI,
 		PEREMPUAN
-	}// true = Laki-laki, false = Perempuan
+	}
 
 	private JenisGender gender;
-
-	public JenisGender getGender() {
-		return gender;
-	}
-
-	public void setGender(JenisGender gender) {
-		this.gender = gender;
-	}
 
 	private int monthlySalary;
 	private int otherMonthlyIncome;
 	private int annualDeductible;
 
-	private String spouseName;
-	private String spouseIdNumber;
-
-	private List<String> childNames;
-	private List<String> childIdNumbers;
+	private Person spouse;
+	private List<Person> children;
 
 	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address,
 			LocalDate dateJoined, boolean isForeigner, JenisGender gender) {
@@ -64,8 +45,7 @@ public class Employee {
 		this.isForeigner = isForeigner;
 		this.gender = gender;
 
-		childNames = new LinkedList<String>();
-		childIdNumbers = new LinkedList<String>();
+		children = new LinkedList<Person>(children);
 	}
 
 	/**
@@ -102,20 +82,25 @@ public class Employee {
 		this.otherMonthlyIncome = income;
 	}
 
-	public void setSpouse(String spouseName, String spouseIdNumber) {
-		this.spouseName = spouseName;
-		this.spouseIdNumber = idNumber;
+	public void addChild(String childName, String childIdNumber) {
+		Person child = new Person();
+
+		child.setName(childName);
+		child.setID(childIdNumber);
+
+		children.add(child);
 	}
 
-	public void addChild(String childName, String childIdNumber) {
-		childNames.add(childName);
-		childIdNumbers.add(childIdNumber);
+	public boolean isMarried() {
+		return spouse != null && spouse.getID() != null && !spouse.getID().isEmpty();
 	}
 
 	public int getAnnualIncomeTax() {
 
 		// Menghitung berapa lama pegawai bekerja dalam setahun ini, jika pegawai sudah
 		// bekerja dari tahun sebelumnya maka otomatis dianggap 12 bulan.
+
+		boolean marriedStatus = isMarried();
 		LocalDate date = LocalDate.now();
 
 		if (date.getYear() == dateJoined.getYear()) {
@@ -125,6 +110,62 @@ public class Employee {
 		}
 
 		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible,
-				spouseIdNumber.equals(""), childIdNumbers.size());
+				marriedStatus, children.size());
+	}
+
+	public LocalDate getDateJoined() {
+		return dateJoined;
+	}
+
+	public void setDateJoined(LocalDate dateJoined) {
+		this.dateJoined = dateJoined;
+	}
+
+	public JenisGender getGender() {
+		return gender;
+	}
+
+	public void setGender(JenisGender gender) {
+		this.gender = gender;
+	}
+
+	public Person getSpouse() {
+		return spouse;
+	}
+
+	public void setSpouse(Person spouse) {
+		this.spouse = spouse;
+	}
+
+	public String getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }
