@@ -60,8 +60,16 @@ public class Employee {
 		}
 	}
 
+	public int getMonthSalary() {
+		return monthlySalary;
+	}
+
 	public void setAnnualDeductible(int deductible) {
 		this.annualDeductible = deductible;
+	}
+
+	public int getAnnualDeductible() {
+		return annualDeductible;
 	}
 
 	public void setAdditionalIncome(int income) {
@@ -129,5 +137,13 @@ public class Employee {
 
 	public void setSpouse(Person spouse) {
 		this.spouse = spouse;
+	}
+
+	public List<Person> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Person> children) {
+		this.children = children;
 	}
 }
